@@ -13,4 +13,17 @@ script = ExtResource("1_mjjvg")
 shape = SubResource("CircleShape2D_0cj5r")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -7)
 texture = ExtResource("2_3nay4")
+
+[node name="RayCastUp" type="RayCast2D" parent="."]
+target_position = Vector2(0, 0)
+
+[node name="RayCastDown" type="RayCast2D" parent="."]
+target_position = Vector2(0, 0)
+
+[node name="RayCastLeft" type="RayCast2D" parent="."]
+target_position = Vector2(0, 0)
+
+[node name="RayCastRight" type="RayCast2D" parent="."]
+target_position = Vector2(0, 0)
