@@ -15,11 +15,15 @@ public partial class PlayerController : CharacterBody2D
 	private const float MoveThreshold = 0.1f; // Threshold to determine if the player has reached the target position
 	private const float LerpSpeed = 0.2f; // Speed of the lerp movement
 	
+	private bool isMoving;
+	private CollisionShape2D _collider;
+
 	public override void _Ready()
 	{
         CallDeferred(nameof(SetPlayer));
         
 		_targetPosition = Position;
+		_collider = GetNode<CollisionShape2D>("CollisionShape2D");
 		_rayCastUp = GetNode<RayCast2D>("RayCastUp");
 		_rayCastDown = GetNode<RayCast2D>("RayCastDown");
 		_rayCastLeft = GetNode<RayCast2D>("RayCastLeft");
@@ -42,23 +46,30 @@ public partial class PlayerController : CharacterBody2D
 	{
 		if (Position.DistanceTo(_targetPosition) < MoveThreshold)
 		{
+			isMoving = false;
 			// Check for input and set target position
 			if (Input.IsActionPressed("move_up") && !IsRaycastCollidingWithLayer(_rayCastUp, Config.BlockableLayerName))
 			{
 				_targetPosition.Y -= _gridSize.Y;
+				isMoving = true;
 			}
 			else if (Input.IsActionPressed("move_down") && !IsRaycastCollidingWithLayer(_rayCastDown, Config.BlockableLayerName))
 			{
 				_targetPosition.Y += _gridSize.Y;
+				isMoving = true;
 			}
 			else if (Input.IsActionPressed("move_left") && !IsRaycastCollidingWithLayer(_rayCastLeft, Config.BlockableLayerName))
 			{
 				_targetPosition.X -= _gridSize.X;
+				isMoving = true;
 			}
 			else if (Input.IsActionPressed("move_right") && !IsRaycastCollidingWithLayer(_rayCastRight, Config.BlockableLayerName))
 			{
 				_targetPosition.X += _gridSize.X;
+				isMoving = true;
 			}
+
+			// GD.Print("is moving ", isMoving);
 		}
 
 		// Smoothly move the player towards the target position
@@ -93,5 +104,10 @@ public partial class PlayerController : CharacterBody2D
 				return i;
 		}
 		return -1; // Return -1 if layer not found
+	}
+
+	public void ResetTargetPos()
+	{
+		_targetPosition = Position;
 	}
 }

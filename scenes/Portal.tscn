@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfy4s7vnjkdln"]
+
+[ext_resource type="Script" path="res://scripts/Portal.cs" id="1_x3f4q"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d58v0"]
+size = Vector2(16, 16)
+
+[node name="Portal" type="Area2D"]
+script = ExtResource("1_x3f4q")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(184, 8)
+shape = SubResource("RectangleShape2D_d58v0")
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]

@@ -1,13 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://bu1dgnn28wc7g"]
+[gd_scene load_steps=8 format=3 uid="uid://cfpbf0bsmy017"]
 
-[ext_resource type="Script" path="res://scripts/CameraController.cs" id="2_uwaqg"]
-[ext_resource type="Texture2D" uid="uid://btojmrj6pqnyq" path="res://sprites/floor_1.png" id="3_nvm18"]
-[ext_resource type="Texture2D" uid="uid://bj7d6u5ft3hph" path="res://sprites/wall_mid.png" id="4_nmaga"]
-[ext_resource type="Texture2D" uid="uid://cpp7uuj6kdw4w" path="res://sprites/wall_fountain_mid_blue_anim_f0.png" id="5_cai3l"]
-[ext_resource type="PackedScene" uid="uid://dfj15rnaj4f3o" path="res://scenes/Player.tscn" id="6_buta8"]
+[ext_resource type="Texture2D" uid="uid://btojmrj6pqnyq" path="res://sprites/floor_1.png" id="3_nyxox"]
+[ext_resource type="Texture2D" uid="uid://bj7d6u5ft3hph" path="res://sprites/wall_mid.png" id="4_yayqw"]
+[ext_resource type="Texture2D" uid="uid://cpp7uuj6kdw4w" path="res://sprites/wall_fountain_mid_blue_anim_f0.png" id="5_dcvas"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5fexm"]
-texture = ExtResource("3_nvm18")
+texture = ExtResource("3_nyxox")
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
@@ -15,7 +13,7 @@ texture = ExtResource("3_nvm18")
 0:0/0/physics_layer_1/angular_velocity = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lreax"]
-texture = ExtResource("4_nmaga")
+texture = ExtResource("4_yayqw")
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
@@ -24,7 +22,7 @@ texture = ExtResource("4_nmaga")
 0:0/0/physics_layer_1/angular_velocity = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ia1vt"]
-texture = ExtResource("5_cai3l")
+texture = ExtResource("5_dcvas")
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
@@ -44,22 +42,6 @@ sources/2 = SubResource("TileSetAtlasSource_ia1vt")
 
 [node name="Game" type="Node2D"]
 
-[node name="Player" parent="." instance=ExtResource("6_buta8")]
-z_index = 99
-position = Vector2(8, 8)
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-position = Vector2(-8, -8)
-zoom = Vector2(3.2, 3.2)
-limit_left = -200
-limit_top = -140
-limit_right = 200
-limit_bottom = 140
-limit_smoothed = true
-position_smoothing_enabled = true
-editor_draw_limits = true
-script = ExtResource("2_uwaqg")
-
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_jkov1")
 format = 2
@@ -78,4 +60,4 @@ layer_2/modulate = Color(1, 1, 1, 1)
 layer_2/y_sort_enabled = false
 layer_2/y_sort_origin = 0
 layer_2/z_index = 0
-layer_2/tile_data = PackedInt32Array(131082, 2, 0)
+layer_2/tile_data = PackedInt32Array(131082, 2, 0, 327670, 2, 0, -196618, 2, 0, -327683, 2, 0, -393209, 2, 0, 524285, 2, 0, 327688, 2, 0, 196604, 2, 0)
