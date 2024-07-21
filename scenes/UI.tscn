@@ -1,0 +1,71 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxv5dxsb86mci"]
+
+[ext_resource type="Script" path="res://scripts/MobileControl.cs" id="1_yvqht"]
+
+[node name="UI" type="CanvasLayer"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MobileDpad" type="Control" parent="Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = -248.0
+offset_right = 200.0
+offset_bottom = -98.0
+grow_vertical = 0
+
+[node name="MoveLeft" type="Button" parent="Control/MobileDpad"]
+layout_mode = 2
+offset_right = 100.0
+offset_bottom = 100.0
+script = ExtResource("1_yvqht")
+ActionName = "move_left"
+metadata/_edit_use_anchors_ = true
+
+[node name="MoveRight" type="Button" parent="Control/MobileDpad"]
+layout_mode = 2
+anchor_left = 1.26
+anchor_right = 1.26
+offset_left = 12.0
+offset_right = 112.0
+offset_bottom = 100.0
+script = ExtResource("1_yvqht")
+ActionName = "move_right"
+metadata/_edit_use_anchors_ = true
+
+[node name="MoveUp" type="Button" parent="Control/MobileDpad"]
+layout_mode = 2
+anchor_left = 0.36
+anchor_top = -1.0
+anchor_right = 0.36
+anchor_bottom = -1.0
+offset_left = 46.0
+offset_top = 40.0
+offset_right = 146.0
+offset_bottom = 140.0
+size_flags_horizontal = 4
+script = ExtResource("1_yvqht")
+ActionName = "move_up"
+metadata/_edit_use_anchors_ = true
+
+[node name="MoveDown" type="Button" parent="Control/MobileDpad"]
+layout_mode = 2
+anchor_left = 0.666667
+anchor_top = 0.36
+anchor_right = 0.666667
+anchor_bottom = 0.36
+offset_top = 52.0
+offset_right = 100.0
+offset_bottom = 152.0
+script = ExtResource("1_yvqht")
+ActionName = "move_down"
+metadata/_edit_use_anchors_ = true
