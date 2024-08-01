@@ -14,14 +14,14 @@ public partial class PlayerController : CharacterBody2D
 
 	private const float MoveThreshold = 0.1f; // Threshold to determine if the player has reached the target position
 	private const float LerpSpeed = 0.2f; // Speed of the lerp movement
-	
+
 	private bool isMoving;
 	private CollisionShape2D _collider;
 
 	public override void _Ready()
 	{
-        CallDeferred(nameof(SetPlayer));
-        
+		CallDeferred(nameof(Initialize));
+
 		_targetPosition = Position;
 		_collider = GetNode<CollisionShape2D>("CollisionShape2D");
 		_rayCastUp = GetNode<RayCast2D>("RayCastUp");
@@ -35,12 +35,12 @@ public partial class PlayerController : CharacterBody2D
 		_rayCastLeft.TargetPosition = new Vector2(-_gridSize.X, 0);
 		_rayCastRight.TargetPosition = new Vector2(_gridSize.X, 0);
 	}
-    
-    private void SetPlayer()
-    {
-        GameController.Instance.Player = this;
-        GD.Print("SetPlayer");
-    }
+
+	private void Initialize()
+	{
+		GameController.Instance.Player = this;
+		GD.Print("SetPlayer");
+	}
 
 	public override void _Process(double delta)
 	{
@@ -72,6 +72,18 @@ public partial class PlayerController : CharacterBody2D
 			// GD.Print("is moving ", isMoving);
 		}
 
+		if (Input.IsKeyPressed(Key.Enter))
+		{
+			if (IsAnyRaycastCollidingWithLayer(Config.InteractableLayerName))
+			{
+				GD.Print("Interact!");
+			}
+			else
+			{
+				GD.Print("Nothing");
+			}
+		}
+
 		// Smoothly move the player towards the target position
 		Position = Position.Lerp(_targetPosition, LerpSpeed);
 	}
@@ -80,30 +92,31 @@ public partial class PlayerController : CharacterBody2D
 	{
 		if (raycast.IsColliding())
 		{
-			var collider = raycast.GetCollider();
-
-			if (collider is CollisionObject2D collisionObject)
-			{
-				int layerIndex = GetLayerIndex(layerName);
-
-				return (collisionObject.CollisionLayer & (1 << layerIndex)) != 0;
-			}
-			else if (collider is TileMap tileMap)
-			{
-				return true;
-			}
+			return Util.GetRaycast2DCollideResult(raycast, layerName);
 		}
 		return false;
 	}
 
-	private int GetLayerIndex(string layerName)
+	private bool IsAnyRaycastCollidingWithLayer(string layerName)
 	{
-		for (int i = 0; i < 32; i++)
+		if (_rayCastUp.IsColliding())
 		{
-			if ((string)ProjectSettings.GetSetting($"layer_names/2d_physics/layer_{i}") == layerName)
-				return i;
+			return Util.GetRaycast2DCollideResult(_rayCastUp, layerName);
 		}
-		return -1; // Return -1 if layer not found
+		if (_rayCastDown.IsColliding())
+		{
+			return Util.GetRaycast2DCollideResult(_rayCastDown, layerName);
+		}
+		if (_rayCastLeft.IsColliding())
+		{
+			return Util.GetRaycast2DCollideResult(_rayCastLeft, layerName);
+		}
+		if (_rayCastRight.IsColliding())
+		{
+			return Util.GetRaycast2DCollideResult(_rayCastRight, layerName);
+		}
+
+		return false;
 	}
 
 	public void ResetTargetPos()

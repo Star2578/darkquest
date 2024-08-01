@@ -1,8 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://bxv5dxsb86mci"]
+[gd_scene load_steps=6 format=3 uid="uid://bxv5dxsb86mci"]
 
+[ext_resource type="Script" path="res://scripts/GuiController.cs" id="1_j2qjw"]
 [ext_resource type="Script" path="res://scripts/MobileControl.cs" id="1_yvqht"]
+[ext_resource type="Texture2D" uid="uid://bsjnpnr5ti034" path="res://sprites/UI_Flat_Button_Small_Lock_01a2.png" id="2_y3csm"]
+[ext_resource type="Script" path="res://scripts/DialogueGroup.cs" id="3_k3jpk"]
+[ext_resource type="LabelSettings" uid="uid://cf1otpfu5ea32" path="res://config/text_label_setting.tres" id="4_47fl8"]
 
 [node name="UI" type="CanvasLayer"]
+script = ExtResource("1_j2qjw")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -17,55 +22,172 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 50.0
-offset_top = -248.0
-offset_right = 200.0
-offset_bottom = -98.0
+offset_left = 30.0
+offset_top = -330.0
+offset_right = 330.0
+offset_bottom = -30.0
 grow_vertical = 0
 
 [node name="MoveLeft" type="Button" parent="Control/MobileDpad"]
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -50.0
 offset_right = 100.0
-offset_bottom = 100.0
+offset_bottom = 50.0
+grow_vertical = 2
 script = ExtResource("1_yvqht")
 ActionName = "move_left"
-metadata/_edit_use_anchors_ = true
 
 [node name="MoveRight" type="Button" parent="Control/MobileDpad"]
-layout_mode = 2
-anchor_left = 1.26
-anchor_right = 1.26
-offset_left = 12.0
-offset_right = 112.0
-offset_bottom = 100.0
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -50.0
+offset_bottom = 50.0
+grow_horizontal = 0
+grow_vertical = 2
 script = ExtResource("1_yvqht")
 ActionName = "move_right"
-metadata/_edit_use_anchors_ = true
 
 [node name="MoveUp" type="Button" parent="Control/MobileDpad"]
-layout_mode = 2
-anchor_left = 0.36
-anchor_top = -1.0
-anchor_right = 0.36
-anchor_bottom = -1.0
-offset_left = 46.0
-offset_top = 40.0
-offset_right = 146.0
-offset_bottom = 140.0
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -50.0
+offset_right = 50.0
+offset_bottom = 100.0
+grow_horizontal = 2
 size_flags_horizontal = 4
 script = ExtResource("1_yvqht")
 ActionName = "move_up"
-metadata/_edit_use_anchors_ = true
 
 [node name="MoveDown" type="Button" parent="Control/MobileDpad"]
-layout_mode = 2
-anchor_left = 0.666667
-anchor_top = 0.36
-anchor_right = 0.666667
-anchor_bottom = 0.36
-offset_top = 52.0
-offset_right = 100.0
-offset_bottom = 152.0
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = -100.0
+offset_right = 50.0
+grow_horizontal = 2
+grow_vertical = 0
 script = ExtResource("1_yvqht")
 ActionName = "move_down"
-metadata/_edit_use_anchors_ = true
+
+[node name="MobileInteract" type="Control" parent="Control"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -330.0
+offset_top = -330.0
+offset_right = -30.0
+offset_bottom = -30.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Button" type="Button" parent="Control/MobileInteract"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -100.0
+offset_right = 100.0
+grow_vertical = 0
+
+[node name="Button2" type="Button" parent="Control/MobileInteract"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 50.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DialogueGroup" type="Control" parent="Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -500.0
+offset_top = -200.0
+offset_right = 500.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("3_k3jpk")
+
+[node name="DialogueBox" type="NinePatchRect" parent="Control/DialogueGroup"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -500.0
+offset_top = -200.0
+offset_right = 500.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+texture = ExtResource("2_y3csm")
+patch_margin_left = 1
+patch_margin_top = 4
+patch_margin_right = 1
+patch_margin_bottom = 3
+
+[node name="NameDisplay" type="Label" parent="Control/DialogueGroup"]
+layout_mode = 1
+offset_left = 20.0
+offset_top = 10.0
+offset_right = 90.0
+offset_bottom = 47.0
+text = "Name"
+label_settings = ExtResource("4_47fl8")
+autowrap_mode = 3
+clip_text = true
+
+[node name="TextDisplay" type="Label" parent="Control/DialogueGroup"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -475.0
+offset_top = -50.0
+offset_right = 475.0
+offset_bottom = 70.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "This is a placeholder text"
+label_settings = ExtResource("4_47fl8")
+autowrap_mode = 3
+clip_text = true
+
+[node name="DialogueChoices" type="VBoxContainer" parent="Control/DialogueGroup"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -300.0
+offset_top = -50.0
+grow_horizontal = 2
+grow_vertical = 0

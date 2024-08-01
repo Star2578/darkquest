@@ -13,6 +13,8 @@ public partial class GameController : Node
 	public Vector2 CameraBoundX { get; set; } = new Vector2(-200, 200); // Left, Right
 	public Vector2 CameraBoundY { get; set; } = new Vector2(-140, 140); // Top, Bottom
 
+	public GuiController guiController { get; set; }
+
 	public override void _Ready()
 	{
 		if (Instance == null)
@@ -23,6 +25,8 @@ public partial class GameController : Node
 			PackedScene playerScene = GD.Load<PackedScene>(PlayerScenePath);
 			Player = playerScene.Instantiate<Node2D>();
             AddChild(Player);
+
+			guiController = GetNode<GuiController>("UI");
 
 			GD.Print("Instantiated a GameController");
 		}

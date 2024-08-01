@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://b4vo0on1oc3ro"]
+
+[ext_resource type="Script" path="res://scripts/ChoiceButton.cs" id="1_fydwy"]
+
+[node name="ChoiceButton" type="Button"]
+custom_minimum_size = Vector2(0, 50)
+text = "Choice 1"
+script = ExtResource("1_fydwy")

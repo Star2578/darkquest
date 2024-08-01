@@ -7,7 +7,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_0cj5r"]
 
 [node name="Player" type="CharacterBody2D"]
-z_index = 1
+z_index = 100
 position = Vector2(8, 8)
 script = ExtResource("1_mjjvg")
 
@@ -20,19 +20,19 @@ texture = ExtResource("2_3nay4")
 
 [node name="RayCastUp" type="RayCast2D" parent="."]
 target_position = Vector2(0, 0)
-collision_mask = 2
+collision_mask = 255
 
 [node name="RayCastDown" type="RayCast2D" parent="."]
 target_position = Vector2(0, 0)
-collision_mask = 2
+collision_mask = 255
 
 [node name="RayCastLeft" type="RayCast2D" parent="."]
 target_position = Vector2(0, 0)
-collision_mask = 2
+collision_mask = 255
 
 [node name="RayCastRight" type="RayCast2D" parent="."]
 target_position = Vector2(0, 0)
-collision_mask = 2
+collision_mask = 255
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(3, 3)

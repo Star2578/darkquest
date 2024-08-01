@@ -27,6 +27,10 @@ window/stretch/mode="viewport"
 
 project/assembly_name="Dark Quest"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/ez_dialogue/plugin.cfg")
+
 [input]
 
 move_up={
@@ -56,8 +60,8 @@ move_down={
 
 [layer_names]
 
-2d_render/layer_2="Blockable"
-2d_render/layer_3="Interactable"
+2d_physics/layer_2="Blockable"
+2d_physics/layer_3="Interactable"
 
 [rendering]
 
