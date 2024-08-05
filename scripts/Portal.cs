@@ -1,3 +1,4 @@
+using DarkQuest.scripts.Controllers;
 using Godot;
 using System;
 

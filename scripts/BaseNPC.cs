@@ -1,3 +1,4 @@
+using DarkQuest.scripts.Controllers;
 using Godot;
 using System;
 
@@ -21,7 +22,6 @@ public partial class BaseNPC : CharacterBody2D
 
     private void ShowDialogue()
     {
-        // TODO : trigger dialogue ui
         GD.Print("Dialogue Opened");
         GameController.Instance.guiController.DialogueGroup.LoadDialogue(DialogueFilePath);
         GameController.Instance.guiController.ToggleDialogueVisibility();

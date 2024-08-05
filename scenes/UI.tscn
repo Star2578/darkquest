@@ -1,13 +1,13 @@
 [gd_scene load_steps=6 format=3 uid="uid://bxv5dxsb86mci"]
 
-[ext_resource type="Script" path="res://scripts/GuiController.cs" id="1_j2qjw"]
+[ext_resource type="Script" path="res://scripts/Controllers/GuiController.cs" id="1_w8fby"]
 [ext_resource type="Script" path="res://scripts/MobileControl.cs" id="1_yvqht"]
 [ext_resource type="Texture2D" uid="uid://bsjnpnr5ti034" path="res://sprites/UI_Flat_Button_Small_Lock_01a2.png" id="2_y3csm"]
-[ext_resource type="Script" path="res://scripts/DialogueController.cs" id="3_k3jpk"]
+[ext_resource type="Script" path="res://scripts/Controllers/DialogueController.cs" id="3_8a7kr"]
 [ext_resource type="LabelSettings" uid="uid://cf1otpfu5ea32" path="res://config/text_label_setting.tres" id="4_47fl8"]
 
 [node name="UI" type="CanvasLayer"]
-script = ExtResource("1_j2qjw")
+script = ExtResource("1_w8fby")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -133,7 +133,7 @@ offset_top = -200.0
 offset_right = 500.0
 grow_horizontal = 2
 grow_vertical = 0
-script = ExtResource("3_k3jpk")
+script = ExtResource("3_8a7kr")
 
 [node name="DialogueBox" type="NinePatchRect" parent="Control/DialogueGroup"]
 layout_mode = 1

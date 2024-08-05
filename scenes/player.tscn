@@ -1,15 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://dfj15rnaj4f3o"]
+[gd_scene load_steps=5 format=3 uid="uid://bwfe6wq16kc3j"]
 
-[ext_resource type="Script" path="res://scripts/PlayerController.cs" id="1_mjjvg"]
+[ext_resource type="Script" path="res://scripts/Controllers/PlayerController.cs" id="1_g11e8"]
 [ext_resource type="Texture2D" uid="uid://bhj2mdfoomij6" path="res://sprites/player.png" id="2_3nay4"]
-[ext_resource type="Script" path="res://scripts/CameraController.cs" id="3_v8atq"]
+[ext_resource type="Script" path="res://scripts/Controllers/CameraController.cs" id="3_lx3ck"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0cj5r"]
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 100
 position = Vector2(8, 8)
-script = ExtResource("1_mjjvg")
+script = ExtResource("1_g11e8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_0cj5r")
@@ -37,4 +37,4 @@ collision_mask = 255
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(3, 3)
 limit_smoothed = true
-script = ExtResource("3_v8atq")
+script = ExtResource("3_lx3ck")
