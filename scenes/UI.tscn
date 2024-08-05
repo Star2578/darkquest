@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/GuiController.cs" id="1_j2qjw"]
 [ext_resource type="Script" path="res://scripts/MobileControl.cs" id="1_yvqht"]
 [ext_resource type="Texture2D" uid="uid://bsjnpnr5ti034" path="res://sprites/UI_Flat_Button_Small_Lock_01a2.png" id="2_y3csm"]
-[ext_resource type="Script" path="res://scripts/DialogueGroup.cs" id="3_k3jpk"]
+[ext_resource type="Script" path="res://scripts/DialogueController.cs" id="3_k3jpk"]
 [ext_resource type="LabelSettings" uid="uid://cf1otpfu5ea32" path="res://config/text_label_setting.tres" id="4_47fl8"]
 
 [node name="UI" type="CanvasLayer"]
@@ -121,6 +121,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="DialogueGroup" type="Control" parent="Control"]
+visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5

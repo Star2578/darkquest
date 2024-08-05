@@ -4,7 +4,7 @@ using System;
 
 public partial class PlayerController : CharacterBody2D
 {
-	private Vector2 _gridSize = new Vector2(Config.GridSize, Config.GridSize);
+	private int _gridSize = Config.GridSize;
 	private Vector2 _targetPosition;
 
 	private RayCast2D _rayCastUp;
@@ -13,9 +13,9 @@ public partial class PlayerController : CharacterBody2D
 	private RayCast2D _rayCastRight;
 
 	private const float MoveThreshold = 0.1f; // Threshold to determine if the player has reached the target position
-	private const float LerpSpeed = 0.2f; // Speed of the lerp movement
+	private const float LerpSpeed = 0.2f;
 
-	private bool isMoving;
+	private bool _isMoving;
 	private CollisionShape2D _collider;
 
 	public override void _Ready()
@@ -30,10 +30,10 @@ public partial class PlayerController : CharacterBody2D
 		_rayCastRight = GetNode<RayCast2D>("RayCastRight");
 
 		// Set the raycast lengths to match the grid size
-		_rayCastUp.TargetPosition = new Vector2(0, -_gridSize.Y);
-		_rayCastDown.TargetPosition = new Vector2(0, _gridSize.Y);
-		_rayCastLeft.TargetPosition = new Vector2(-_gridSize.X, 0);
-		_rayCastRight.TargetPosition = new Vector2(_gridSize.X, 0);
+		_rayCastUp.TargetPosition = new Vector2(0, -_gridSize);
+		_rayCastDown.TargetPosition = new Vector2(0, _gridSize);
+		_rayCastLeft.TargetPosition = new Vector2(-_gridSize, 0);
+		_rayCastRight.TargetPosition = new Vector2(_gridSize, 0);
 	}
 
 	private void Initialize()
@@ -46,37 +46,44 @@ public partial class PlayerController : CharacterBody2D
 	{
 		if (Position.DistanceTo(_targetPosition) < MoveThreshold)
 		{
-			isMoving = false;
-			// Check for input and set target position
-			if (Input.IsActionPressed("move_up") && !IsRaycastCollidingWithLayer(_rayCastUp, Config.BlockableLayerName))
+			_isMoving = false;
+			var colliding = IsAnyRaycastCollidingWithLayer(Config.BlockableLayerName);
+
+			if (Input.IsActionPressed("move_up") && colliding.raycast != _rayCastUp)
 			{
-				_targetPosition.Y -= _gridSize.Y;
-				isMoving = true;
+				_targetPosition.Y -= _gridSize;
 			}
-			else if (Input.IsActionPressed("move_down") && !IsRaycastCollidingWithLayer(_rayCastDown, Config.BlockableLayerName))
+			else if (Input.IsActionPressed("move_down") && colliding.raycast != _rayCastDown)
 			{
-				_targetPosition.Y += _gridSize.Y;
-				isMoving = true;
+				_targetPosition.Y += _gridSize;
 			}
-			else if (Input.IsActionPressed("move_left") && !IsRaycastCollidingWithLayer(_rayCastLeft, Config.BlockableLayerName))
+			else if (Input.IsActionPressed("move_left") && colliding.raycast != _rayCastLeft)
 			{
-				_targetPosition.X -= _gridSize.X;
-				isMoving = true;
+				_targetPosition.X -= _gridSize;
 			}
-			else if (Input.IsActionPressed("move_right") && !IsRaycastCollidingWithLayer(_rayCastRight, Config.BlockableLayerName))
+			else if (Input.IsActionPressed("move_right") && colliding.raycast != _rayCastRight)
 			{
-				_targetPosition.X += _gridSize.X;
-				isMoving = true;
+				_targetPosition.X += _gridSize;
 			}
 
-			// GD.Print("is moving ", isMoving);
+			_isMoving = true;
 		}
 
-		if (Input.IsKeyPressed(Key.Enter))
+		if (Input.IsActionJustPressed("interact") && !GameController.Instance.IsInteracting)
 		{
-			if (IsAnyRaycastCollidingWithLayer(Config.InteractableLayerName))
+			var colliding = IsAnyRaycastCollidingWithLayer(Config.InteractableLayerName);
+			if (colliding.result)
 			{
 				GD.Print("Interact!");
+				var collider = colliding.raycast.GetCollider();
+
+				if (collider is BaseNPC)
+				{
+					GD.Print("Is npc");
+					collider.Call("Interact");
+				}
+
+				GameController.Instance.IsInteracting = true;
 			}
 			else
 			{
@@ -88,35 +95,26 @@ public partial class PlayerController : CharacterBody2D
 		Position = Position.Lerp(_targetPosition, LerpSpeed);
 	}
 
-	private bool IsRaycastCollidingWithLayer(RayCast2D raycast, string layerName)
-	{
-		if (raycast.IsColliding())
-		{
-			return Util.GetRaycast2DCollideResult(raycast, layerName);
-		}
-		return false;
-	}
-
-	private bool IsAnyRaycastCollidingWithLayer(string layerName)
+	private (bool result, RayCast2D raycast) IsAnyRaycastCollidingWithLayer(string layerName)
 	{
 		if (_rayCastUp.IsColliding())
 		{
-			return Util.GetRaycast2DCollideResult(_rayCastUp, layerName);
+			return (result: Util.GetRaycast2DCollideResult(_rayCastUp, layerName), raycast: _rayCastUp);
 		}
 		if (_rayCastDown.IsColliding())
 		{
-			return Util.GetRaycast2DCollideResult(_rayCastDown, layerName);
+			return (result: Util.GetRaycast2DCollideResult(_rayCastDown, layerName), raycast: _rayCastDown);
 		}
 		if (_rayCastLeft.IsColliding())
 		{
-			return Util.GetRaycast2DCollideResult(_rayCastLeft, layerName);
+			return (result: Util.GetRaycast2DCollideResult(_rayCastLeft, layerName), raycast: _rayCastLeft);
 		}
 		if (_rayCastRight.IsColliding())
 		{
-			return Util.GetRaycast2DCollideResult(_rayCastRight, layerName);
+			return (result: Util.GetRaycast2DCollideResult(_rayCastRight, layerName), raycast: _rayCastRight);
 		}
 
-		return false;
+		return (false, null);
 	}
 
 	public void ResetTargetPos()

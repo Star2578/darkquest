@@ -15,6 +15,8 @@ public partial class GameController : Node
 
 	public GuiController guiController { get; set; }
 
+	public bool IsInteracting = false;
+
 	public override void _Ready()
 	{
 		if (Instance == null)

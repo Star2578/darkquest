@@ -6,17 +6,26 @@ public partial class GuiController : CanvasLayer
 	public Control MobileDpad;
 	public Control MobileInteract;
 	
-	public NinePatchRect DialogueBox;
+	public DialogueController DialogueGroup;
 
 	public override void _Ready()
 	{
 		MobileDpad = GetNode<Control>("Control/MobileDpad");
 		MobileInteract = GetNode<Control>("Control/MobileInteract");
-		DialogueBox = GetNode<NinePatchRect>("Control/DialogueGroup/DialogueBox");
+		DialogueGroup = GetNode<DialogueController>("Control/DialogueGroup");
 	}
 
 	public override void _Process(double delta)
 	{
+		if (Input.IsActionJustReleased("close_action") && DialogueGroup.Visible)
+		{
+			ToggleDialogueVisibility();
+		}
+
+		if (Input.IsActionJustPressed("dialogue_interact") && DialogueGroup.Visible)
+		{
+			GameController.Instance.guiController.DialogueGroup.NextDialogue();
+		}
 	}
 
 	public void ToggleMobileVisibility()
@@ -25,8 +34,9 @@ public partial class GuiController : CanvasLayer
 		MobileInteract.Visible = !MobileInteract.Visible;
 	}
 
-	public void ToggleDialogueBoxVisibility()
+	public void ToggleDialogueVisibility()
 	{
-		DialogueBox.Visible = !DialogueBox.Visible;
+		DialogueGroup.Visible = !DialogueGroup.Visible;
+		GameController.Instance.IsInteracting = DialogueGroup.Visible;
 	}
 }
