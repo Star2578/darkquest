@@ -45,6 +45,7 @@ namespace DarkQuest.scripts.Controllers
 
 		public override void _Process(double delta)
 		{
+			#region --- PLAYER MOVEMENT ---
 			if (Position.DistanceTo(_targetPosition) < MoveThreshold && !IsInAction())
 			{
 				var colliding = IsAnyRaycastCollidingWithLayer(Config.BlockableLayerName);
@@ -66,6 +67,7 @@ namespace DarkQuest.scripts.Controllers
 					_targetPosition.X += _gridSize;
 				}
 			}
+			#endregion
 
 			if (Input.IsActionJustPressed("interact") && !GameController.Instance.IsInteracting)
 			{

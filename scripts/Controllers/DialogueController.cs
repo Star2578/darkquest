@@ -21,6 +21,12 @@ namespace DarkQuest.scripts.Controllers
 		private DialogueList _dialogueList;
 		private int _dialogueIndex;
 
+		private Tween _tween;
+		private float _textAnimation = 1.0f;
+		public bool IsAnimationRunning
+		{
+			get { return _tween.IsRunning(); }
+		}
 
 		public override void _Ready()
 		{
@@ -32,7 +38,7 @@ namespace DarkQuest.scripts.Controllers
 			ChoiceButtons = new List<Button>();
 		}
 
-		public void LoadDialogue(string filePath)
+		public void LoadDialogue(string filePath, bool exhausted = false)
 		{
 			try
 			{
@@ -43,7 +49,7 @@ namespace DarkQuest.scripts.Controllers
 				_dialogueList = JsonConvert.DeserializeObject<DialogueList>(jsonText);
 				_dialogueIndex = 0;
 
-				UpdateDialogueText(_dialogueList);
+				UpdateDialogueText(_dialogueList, exhausted);
 			}
 			catch (System.Exception ex)
 			{
@@ -62,15 +68,45 @@ namespace DarkQuest.scripts.Controllers
 			ChoiceButtons.Clear();
 		}
 
-		public void UpdateDialogueText(DialogueList dialogueList)
+		#region --- DIALOGUE LOGIC ---
+		public void UpdateDialogueText(DialogueList dialogueList, bool exhausted = false)
 		{
-			NameDisplay.Text = dialogueList.dialogue[_dialogueIndex].name;
-			TextDisplay.Text = dialogueList.dialogue[_dialogueIndex].text;
+			if (exhausted)
+			{
+				NameDisplay.Text = dialogueList.DialogueExhausted[_dialogueIndex].Name;
+				TextDisplay.Text = dialogueList.DialogueExhausted[_dialogueIndex].Text;
 
-			foreach (var choice in dialogueList.dialogue[_dialogueIndex].choices)
+				AnimateText();
+
+				foreach (var choice in dialogueList.DialogueExhausted[_dialogueIndex].Choices)
+				{
+					AddChoice(choice);
+				}
+
+				return;
+			}
+
+			NameDisplay.Text = dialogueList.Dialogue[_dialogueIndex].Name;
+			TextDisplay.Text = dialogueList.Dialogue[_dialogueIndex].Text;
+
+			AnimateText();
+
+			foreach (var choice in dialogueList.Dialogue[_dialogueIndex].Choices)
 			{
 				AddChoice(choice);
 			}
+		}
+
+		private void AnimateText()
+		{
+			if (_tween != null)
+				_tween.Kill(); // Abort the previous animation
+
+			_tween = CreateTween();
+			_tween.TweenProperty(TextDisplay, "visible_ratio", 1.0f, _textAnimation);
+
+			TextDisplay.VisibleRatio = 0; // Reset VisibleRatio
+			_tween.Play();
 		}
 
 		public void AddChoice(string text)
@@ -96,9 +132,19 @@ namespace DarkQuest.scripts.Controllers
 
 		public void NextDialogue()
 		{
+			if (IsAnimationRunning)
+			{
+				if (_tween != null)
+					_tween.Kill(); // Abort the previous animation
+
+				TextDisplay.VisibleRatio = 1;
+
+				return;
+			}
+
 			_dialogueIndex++;
 
-			if (_dialogueIndex >= _dialogueList.dialogue.Length)
+			if (_dialogueIndex >= _dialogueList.Dialogue.Length)
 			{
 				GameController.Instance.guiController.ToggleDialogueVisibility();
 				GameController.Instance.IsInteracting = false;
@@ -108,5 +154,6 @@ namespace DarkQuest.scripts.Controllers
 			ClearDialogue();
 			UpdateDialogueText(_dialogueList);
 		}
+		#endregion
 	}
 }

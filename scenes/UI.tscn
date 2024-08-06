@@ -182,6 +182,8 @@ text = "This is a placeholder text"
 label_settings = ExtResource("4_47fl8")
 autowrap_mode = 3
 clip_text = true
+visible_characters = 0
+visible_ratio = 0.0
 
 [node name="DialogueChoices" type="VBoxContainer" parent="Control/DialogueGroup"]
 layout_mode = 1

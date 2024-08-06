@@ -7,13 +7,14 @@ namespace DarkQuest.scripts.Models
 {
     public class DialogueData
     {
-        public string name;
-        public string text;
-        public string[] choices;
+        public string Name;
+        public string Text;
+        public string[] Choices;
     }
 
     public class DialogueList
     {
-        public DialogueData[] dialogue;
+        public DialogueData[] Dialogue;
+        public DialogueData[] DialogueExhausted;
     }
 }

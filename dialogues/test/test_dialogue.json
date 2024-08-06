@@ -23,5 +23,12 @@
             "text": "This is a test msg 3",
             "choices": []
         }
+    ],
+    "dialogue_exhausted" : [
+        {
+            "name" : "Test 1",
+            "text" : "...",
+            "choices" : []
+        }
     ]
 }
