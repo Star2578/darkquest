@@ -13,5 +13,13 @@ namespace DarkQuest.scripts.Global
         // Layers
         public const string BlockableLayerName = "Blockable";
         public const string InteractableLayerName = "Interactable";
+
+        // Input map
+        public const string MoveUpInput = "move_up";
+        public const string MoveDownInput = "move_down";
+        public const string MoveLeftInput = "move_left";
+        public const string MoveRightInput = "move_right";
+        public const string InteractInput = "interact";
+        public const string DialogueInput = "dialogue_interact";
     }
 }

@@ -7,11 +7,6 @@ public partial class BaseNPC : CharacterBody2D
     private Sprite2D _sprite;
     private AnimationPlayer _animationPlayer;
 
-    [Signal]
-    public delegate void DialogueOpenEventHandler();
-
-    [Signal]
-    public delegate void DialogueEndEventHandler();
 
     [Export(PropertyHint.File, "*.json")]
 	public string DialogueFilePath;
@@ -22,14 +17,13 @@ public partial class BaseNPC : CharacterBody2D
     {
         _sprite = GetNode<Sprite2D>("Sprite2D");
         _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
-        DialogueOpen += OnDialogueOpen;
-        DialogueEnd += OnDialogueEnd;
+        GameController.Instance.guiController.DialogueGroup.DialogueEnd += OnDialogueEnd;
     }
 
     private void OnDialogueOpen()
     {
         GD.Print("Dialogue Opened");
-        GameController.Instance.guiController.DialogueGroup.LoadDialogue(DialogueFilePath);
+        GameController.Instance.guiController.DialogueGroup.LoadDialogue(DialogueFilePath, IsDialogueExhausted);
         GameController.Instance.guiController.ToggleDialogueVisibility();
     }
 
@@ -41,6 +35,6 @@ public partial class BaseNPC : CharacterBody2D
 
     public void Interact()
     {
-        EmitSignal(SignalName.DialogueOpen);
+        OnDialogueOpen();
     }
 }

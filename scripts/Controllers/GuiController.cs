@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using DarkQuest.scripts.Global;
 
 namespace DarkQuest.scripts.Controllers
 {
@@ -19,12 +20,7 @@ namespace DarkQuest.scripts.Controllers
 
 		public override void _Process(double delta)
 		{
-			if (Input.IsActionJustReleased("close_action") && DialogueGroup.Visible)
-			{
-				ToggleDialogueVisibility();
-			}
-
-			if (Input.IsActionJustPressed("dialogue_interact") && DialogueGroup.Visible)
+			if (Input.IsActionJustPressed(Config.DialogueInput) && DialogueGroup.Visible)
 			{
 				GameController.Instance.guiController.DialogueGroup.NextDialogue();
 			}
@@ -39,7 +35,6 @@ namespace DarkQuest.scripts.Controllers
 		public void ToggleDialogueVisibility()
 		{
 			DialogueGroup.Visible = !DialogueGroup.Visible;
-			// GameController.Instance.IsInteracting = DialogueGroup.Visible;
 		}
 	}
 }

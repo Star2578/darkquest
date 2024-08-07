@@ -10,6 +10,9 @@ namespace DarkQuest.scripts.Controllers
 {
 	public partial class DialogueController : Control
 	{
+		[Signal]
+		public delegate void DialogueEndEventHandler();
+
 		public Label NameDisplay;
 		public Label TextDisplay;
 		public VBoxContainer DialogueChoicesContainer;
@@ -20,6 +23,9 @@ namespace DarkQuest.scripts.Controllers
 		public string DialogueFilePath;
 		private DialogueList _dialogueList;
 		private int _dialogueIndex;
+
+		private bool _IsExhausted;
+		private int _dialogueExhaustedIndex;
 
 		private Tween _tween;
 		private float _textAnimation = 1.0f;
@@ -38,7 +44,7 @@ namespace DarkQuest.scripts.Controllers
 			ChoiceButtons = new List<Button>();
 		}
 
-		public void LoadDialogue(string filePath, bool exhausted = false)
+		public void LoadDialogue(string filePath, bool exhausted)
 		{
 			try
 			{
@@ -48,8 +54,11 @@ namespace DarkQuest.scripts.Controllers
 
 				_dialogueList = JsonConvert.DeserializeObject<DialogueList>(jsonText);
 				_dialogueIndex = 0;
+				_dialogueExhaustedIndex = 0;
 
-				UpdateDialogueText(_dialogueList, exhausted);
+				_IsExhausted = exhausted;
+
+				UpdateDialogueText(_dialogueList);
 			}
 			catch (System.Exception ex)
 			{
@@ -69,16 +78,16 @@ namespace DarkQuest.scripts.Controllers
 		}
 
 		#region --- DIALOGUE LOGIC ---
-		public void UpdateDialogueText(DialogueList dialogueList, bool exhausted = false)
+		public void UpdateDialogueText(DialogueList dialogueList)
 		{
-			if (exhausted)
+			if (_IsExhausted)
 			{
-				NameDisplay.Text = dialogueList.DialogueExhausted[_dialogueIndex].Name;
-				TextDisplay.Text = dialogueList.DialogueExhausted[_dialogueIndex].Text;
+				NameDisplay.Text = dialogueList.Dialogue_Exhausted[_dialogueExhaustedIndex].Name;
+				TextDisplay.Text = dialogueList.Dialogue_Exhausted[_dialogueExhaustedIndex].Text;
 
 				AnimateText();
 
-				foreach (var choice in dialogueList.DialogueExhausted[_dialogueIndex].Choices)
+				foreach (var choice in dialogueList.Dialogue_Exhausted[_dialogueExhaustedIndex].Choices)
 				{
 					AddChoice(choice);
 				}
@@ -142,12 +151,18 @@ namespace DarkQuest.scripts.Controllers
 				return;
 			}
 
-			_dialogueIndex++;
+			if (!_IsExhausted)
+				_dialogueIndex++;
+			else
+				_dialogueExhaustedIndex++;
 
-			if (_dialogueIndex >= _dialogueList.Dialogue.Length)
+			if (
+				_dialogueIndex >= _dialogueList.Dialogue.Length ||
+				_dialogueExhaustedIndex >= _dialogueList.Dialogue_Exhausted.Length)
 			{
 				GameController.Instance.guiController.ToggleDialogueVisibility();
 				GameController.Instance.IsInteracting = false;
+				EmitSignal(SignalName.DialogueEnd);
 				return;
 			}
 

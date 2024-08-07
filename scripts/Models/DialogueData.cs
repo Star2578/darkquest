@@ -15,6 +15,6 @@ namespace DarkQuest.scripts.Models
     public class DialogueList
     {
         public DialogueData[] Dialogue;
-        public DialogueData[] DialogueExhausted;
+        public DialogueData[] Dialogue_Exhausted;
     }
 }

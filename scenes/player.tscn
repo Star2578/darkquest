@@ -5,6 +5,7 @@
 [ext_resource type="Script" path="res://scripts/Controllers/CameraController.cs" id="3_lx3ck"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0cj5r"]
+radius = 8.0
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 100
