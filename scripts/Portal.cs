@@ -30,6 +30,8 @@ public partial class Portal : Area2D
         {
             // Start the timer to delay the scene change
             _transitionTimer.Start();
+
+            // TODO : transition animation
         }
     }
 

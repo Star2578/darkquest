@@ -10,6 +10,7 @@ namespace DarkQuest.scripts.Models
         public string Name;
         public string Text;
         public string[] Choices;
+        public string[] Choices_Impact;
     }
 
     public class DialogueList

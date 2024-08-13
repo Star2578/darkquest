@@ -3,12 +3,14 @@
         {
             "name": "Test 1",
             "text": "This is a test msg 1",
-            "choices": []
+            "choices": [],
+            "choices_impact": []
         },
         {
             "name": "Test 2",
             "text": "This is a test msg 2",
-            "choices": []
+            "choices": [],
+            "choices_impact": []
         },
         {
             "name": "Test 1",
@@ -16,19 +18,25 @@
             "choices": [
                 "choice 1",
                 "choice 2"
+            ],
+            "choices_impact": [
+                "none",
+                "none"
             ]
         },
         {
             "name": "Test 3",
             "text": "This is a test msg 3",
-            "choices": []
+            "choices": [],
+            "choices_impact": []
         }
     ],
-    "dialogue_exhausted" : [
+    "dialogue_exhausted": [
         {
-            "name" : "Test 1",
-            "text" : "...",
-            "choices" : []
+            "name": "Test 1",
+            "text": "...",
+            "choices": [],
+            "choices_impact": []
         }
     ]
 }

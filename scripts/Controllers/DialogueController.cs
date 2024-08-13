@@ -1,7 +1,7 @@
+using DarkQuest.scripts.Global;
 using DarkQuest.scripts.Models;
 using Godot;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +26,8 @@ namespace DarkQuest.scripts.Controllers
 
 		private bool _IsExhausted;
 		private int _dialogueExhaustedIndex;
+
+		private bool _IsChoicePicked;
 
 		private Tween _tween;
 		private float _textAnimation = 1.0f;
@@ -132,9 +134,22 @@ namespace DarkQuest.scripts.Controllers
 
 		private void OnChoiceSelected(int choiceIndex)
 		{
+			string code;
 			GD.Print(choiceIndex);
 
+			if (_IsExhausted)
+			{
+				code = _dialogueList.Dialogue_Exhausted[_dialogueExhaustedIndex].Choices_Impact[choiceIndex];
+			}
+			else
+			{
+				code = _dialogueList.Dialogue[_dialogueIndex].Choices_Impact[choiceIndex];
+			}
+
 			// TODO : Choice impact
+			_IsChoicePicked = true;
+
+			ChoiceImpact.Impact(code);
 
 			NextDialogue();
 		}
@@ -149,6 +164,16 @@ namespace DarkQuest.scripts.Controllers
 				TextDisplay.VisibleRatio = 1;
 
 				return;
+			}
+
+			if (ChoiceButtons.Any() && !_IsChoicePicked)
+			{
+				GD.Print("Choose an option to proceed");
+				return;
+			}
+			else
+			{
+				_IsChoicePicked = false;
 			}
 
 			if (!_IsExhausted)
